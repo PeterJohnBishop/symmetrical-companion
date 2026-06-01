@@ -13,12 +13,12 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
-type SignalingHub struct {
+type ClientHub struct {
 	sync.RWMutex
 	clients map[*websocket.Conn]bool
 }
 
-var hub = SignalingHub{
+var hub = ClientHub{
 	clients: make(map[*websocket.Conn]bool),
 }
 
@@ -69,7 +69,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	log.Printf("Signaling Server actively running on :%s", port)
+	log.Printf("Websocket Server actively running on :%s", port)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("Server crashed: ", err)
